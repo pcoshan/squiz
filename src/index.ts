@@ -8,7 +8,7 @@ import { Warning } from './types';
 require('./logger.ts');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const ERRORMESSAGE = 'Something went wrong';
 
 app.get('/', async (req: Request, res: Response) => {
