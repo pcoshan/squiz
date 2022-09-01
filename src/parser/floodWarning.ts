@@ -1,5 +1,5 @@
-import { Downloader } from "../floods/Downloader";
-import { parseXml } from "./parser";
+import { Downloader } from '../floods/Downloader';
+import { parseXml } from './parser';
 
 export class FloodWarningParser {
   constructor(private xmlString: any) {}
@@ -11,74 +11,74 @@ export class FloodWarningParser {
       });
     });
 
-    let productType = (obj.amoc["product-type"] || [])[0];
+    let productType = (obj.amoc['product-type'] || [])[0];
 
     switch (productType) {
-      case "A":
-        productType = "Advice";
-      case "B":
-        productType = "Bundle";
-      case "C":
-        productType = "Climate";
-      case "D":
-        productType = "Metadata";
-      case "E":
-        productType = "Analysis";
-      case "F":
-        productType = "Forecast";
-      case "M":
-        productType = "Numerical Weather Prediction";
-      case "O":
-        productType = "Observation";
-      case "Q":
-        productType = "Reference";
-      case "R":
-        productType = "Radar";
-      case "S":
-        productType = "Special";
-      case "T":
-        productType = "Satellite";
-      case "W":
-        productType = "Warning";
-      case "X":
-        productType = "Mixed";
+      case 'A':
+        productType = 'Advice';
+      case 'B':
+        productType = 'Bundle';
+      case 'C':
+        productType = 'Climate';
+      case 'D':
+        productType = 'Metadata';
+      case 'E':
+        productType = 'Analysis';
+      case 'F':
+        productType = 'Forecast';
+      case 'M':
+        productType = 'Numerical Weather Prediction';
+      case 'O':
+        productType = 'Observation';
+      case 'Q':
+        productType = 'Reference';
+      case 'R':
+        productType = 'Radar';
+      case 'S':
+        productType = 'Special';
+      case 'T':
+        productType = 'Satellite';
+      case 'W':
+        productType = 'Warning';
+      case 'X':
+        productType = 'Mixed';
     }
 
-    let service = (obj.amoc["service"] || [])[0];
+    let service = (obj.amoc['service'] || [])[0];
 
     switch (service) {
-      case "COM":
-        service = "Commercial Services";
+      case 'COM':
+        service = 'Commercial Services';
         break;
-      case "HFW":
-        service = "Flood Warning Service";
+      case 'HFW':
+        service = 'Flood Warning Service';
         break;
-      case "TWS":
-        service = "Tsunami Warning Services";
+      case 'TWS':
+        service = 'Tsunami Warning Services';
         break;
-      case "WAP":
-        service = "Analysis and Prediction";
+      case 'WAP':
+        service = 'Analysis and Prediction';
         break;
-      case "WSA":
-        service = "Aviation Weather Services";
+      case 'WSA':
+        service = 'Aviation Weather Services';
         break;
-      case "WSD":
-        service = "Defence Weather Services";
+      case 'WSD':
+        service = 'Defence Weather Services';
         break;
-      case "WSF":
-        service = "Fire Weather Services";
+      case 'WSF':
+        service = 'Fire Weather Services';
         break;
-      case "WSM":
-        service = "Marine Weather Services";
+      case 'WSM':
+        service = 'Marine Weather Services';
         break;
-      case "WSP":
-        service = "Public Weather Services";
+      case 'WSP':
+        service = 'Public Weather Services';
         break;
-      case "WSS":
-        service = "Cost Recovery Services";
+      case 'WSS':
+        service = 'Cost Recovery Services';
         break;
-      case "WSW":
-        service = "Disaster Mitigation";
+      case 'WSW':
+        service = 'Disaster Mitigation';
         break;
     }
 
@@ -89,6 +89,7 @@ export class FloodWarningParser {
       expiry: await this.getEndTime(),
     };
   }
+  //Fix types
   async getIssueTime() {
     const obj: any = await new Promise((resolve, reject) => {
       parseXml(this.xmlString, (data) => {
@@ -96,11 +97,11 @@ export class FloodWarningParser {
       });
     });
 
-    let issuetime = (obj.amoc["issue-time-utc"] || [])[0];
+    let issuetime = (obj.amoc['issue-time-utc'] || [])[0];
 
     return issuetime;
   }
-
+  //Fix types
   async getEndTime() {
     const obj: any = await new Promise((resolve, reject) => {
       parseXml(this.xmlString, (data) => {
@@ -108,11 +109,11 @@ export class FloodWarningParser {
       });
     });
 
-    let issuetime = (obj.amoc["expiry-time"] || [])[0];
+    let issuetime = (obj.amoc['expiry-time'] || [])[0];
 
     return issuetime;
   }
-
+  //Fix types
   async getWarningText(): Promise<string> {
     const obj: any = await new Promise((resolve, reject) => {
       parseXml(this.xmlString, (data) => {

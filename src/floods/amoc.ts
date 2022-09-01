@@ -1,33 +1,38 @@
-import { Client } from "basic-ftp";
+import { Client } from 'basic-ftp';
+import { Warning } from '../types';
 
-export async function getWarnings() {
+export async function getWarnings(): Promise<Warning[] | undefined> {
   const client = new Client();
   client.ftp.verbose = true;
   try {
     await client.access({
-      host: "ftp.bom.gov.au",
+      host: 'ftp.bom.gov.au',
       secure: false,
     });
 
-    await client.cd("/anon/gen/fwo/");
+    await client.cd('/anon/gen/fwo/');
 
     const files = await client.list();
 
-    let warns: any = {};
-    for (var file in files) {
-      if (files[file].name.endsWith(".amoc.xml")) {
-        warns[files[file].name] = true;
+    const warns: Warning[] = [];
+    for (let file in files) {
+      if (files[file].name.endsWith('.amoc.xml')) {
+        const newWarning: Warning = {
+          id: files[file].name,
+          value: true,
+        };
+        warns.push(newWarning);
       }
     }
-
+    console.log('WARNS', warns);
+    client.close();
     return warns;
   } catch (err) {
     console.log(err);
   }
-
-  client.close();
 }
 
-export function getWarning(id: string) {
-  //
-}
+//Commented this out as ive decided its a potentially a duplicate function definition.
+// export function getWarning(id: string) {
+//
+// }
