@@ -11,28 +11,27 @@ export async function getWarnings(): Promise<Warning[] | undefined> {
     });
 
     await client.cd('/anon/gen/fwo/');
-
+    //Is there a way to optimise this????
     const files = await client.list();
 
-    const warns: Warning[] = [];
-    for (let file in files) {
-      if (files[file].name.endsWith('.amoc.xml')) {
+    const warnings: Warning[] = [];
+    files.forEach((file) => {
+      if (file.name.endsWith('.amoc.xml')) {
         const newWarning: Warning = {
-          id: files[file].name,
+          id: file.name,
           value: true,
         };
-        warns.push(newWarning);
+        warnings.push(newWarning);
       }
-    }
-    console.log('WARNS', warns);
+    });
     client.close();
-    return warns;
+    return warnings;
   } catch (err) {
     console.log(err);
   }
 }
 
-//Commented this out as ive decided its a potentially a duplicate function definition.
+//Commented this out as ive decided its a potentially a duplicate function dec.
 // export function getWarning(id: string) {
 //
 // }

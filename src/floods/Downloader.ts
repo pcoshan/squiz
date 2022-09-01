@@ -18,7 +18,7 @@ export class Downloader {
       for (let file in files) {
         if (files[file].name.endsWith('.amoc.xml')) {
           if (`${key}.amoc.xml` == files[file].name) {
-            //TODO: This download was marked as deprecated, find the correct way to do this.
+            //change Download to Download to
             await client.downloadTo(`./${key}.xml`, files[file].name);
           }
         }
@@ -50,7 +50,7 @@ export class Downloader {
       });
 
       await client.cd('/anon/gen/fwo/');
-
+      //change Download to Download to
       await client.downloadTo(`./${key}.txt`, key + '.txt');
 
       warningText = fs.readFileSync(`./${key}.txt`, {

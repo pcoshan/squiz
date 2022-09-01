@@ -12,5 +12,3 @@ describe('getAmocToStateId', () => {
     expect(getAmocToStateId('ACT')).toEqual('IDN');
   });
 });
-
-//We assume this works correctly

@@ -20,5 +20,3 @@ export function getAmocToStateId(state: string): string {
 
   return 'unk';
 }
-
-//We assume this works correctly??

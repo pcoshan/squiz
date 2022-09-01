@@ -5,10 +5,13 @@ import { getAmocToStateId } from './getAmocToStateId';
 import { FloodWarningParser } from './parser/floodWarning';
 import { Warning } from './types';
 
-require('./logger.ts');
+//TODO: investigate any required changes here
+const logger = require('./logger.ts');
 
 const app = express();
+//Change this to allow deployment to railways
 const port = process.env.PORT || 3000;
+//Create a more meaningful way of sending back errors
 const ERRORMESSAGE = 'Something went wrong';
 
 app.get('/', async (req: Request, res: Response) => {
@@ -25,8 +28,11 @@ app.get('/', async (req: Request, res: Response) => {
     }
     res.send(results);
   } catch (error) {
-    console.log(error);
-    res.send(ERRORMESSAGE); //send back error response code
+    //We should log these errors
+    logger(error);
+    // console.error(error);
+    res.status(500);
+    res.send(ERRORMESSAGE);
   }
 });
 
@@ -40,7 +46,10 @@ app.get('/warning/:id', async (req: Request, res: Response) => {
     const text = await downloader.downloadText(xmlid);
     res.send({ ...(await warningParser.getWarning()), text: text || '' });
   } catch (error) {
-    console.log(error);
+    //We should log these errors
+    logger(error);
+    // console.error(error);
+    res.status(500);
     res.send(ERRORMESSAGE); //send back error response code
   }
 });
