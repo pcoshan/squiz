@@ -19,6 +19,7 @@ export class FloodWarningParser {
         });
       }
     );
+    console.warn(parsedData);
     const productType: string | null =
       product_map.get(parsedData.amoc['product-type']) ?? null;
     const service: string | null =

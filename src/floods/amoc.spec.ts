@@ -10,6 +10,9 @@ describe('getting data', () => {
 
   it('should download data', async () => {
     const warnings: Warning[] | undefined = await getWarnings();
-    expect(warnings).toContain('IDQ11307.amoc.xml');
+    const ids = warnings?.map((warning) => {
+      return warning.id;
+    });
+    expect(ids).toContain('IDQ11307.amoc.xml');
   });
 });
