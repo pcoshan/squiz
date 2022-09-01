@@ -1,28 +1,28 @@
-import { downloadTo } from "basic-ftp/dist/transfer";
-import express from "express";
-import { getWarnings } from "./floods/amoc";
-import { Downloader } from "./floods/Downloader";
-import { getAmocToStateId } from "./getAmocToStateId";
-import { FloodWarningParser } from "./parser/floodWarning";
-import { parseXml } from "./parser/parser";
+import { downloadTo } from 'basic-ftp/dist/transfer';
+import express from 'express';
+import { getWarnings } from './floods/amoc';
+import { Downloader } from './floods/Downloader';
+import { getAmocToStateId } from './getAmocToStateId';
+import { FloodWarningParser } from './parser/floodWarning';
+import { parseXml } from './parser/parser';
 
-require("./logger.ts");
+require('./logger.ts');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-const ERRORMESSAGE = "Something went wrong";
+const ERRORMESSAGE = 'Something went wrong';
 
-app.get("/", async (req, res) => {
+app.get('/', async (req, res) => {
   try {
     const data = await getWarnings();
 
-    const state = getAmocToStateId(req.query.state?.toString() || "");
+    const state = getAmocToStateId(req.query.state?.toString() || '');
 
     let results = [];
     for (let key in data) {
       if (key.startsWith(state)) {
-        results.push(key.replace(/\.amoc\.xml/, ""));
+        results.push(key.replace(/\.amoc\.xml/, ''));
       }
     }
 
@@ -33,7 +33,7 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.get("/warning/:id", async (req, res) => {
+app.get('/warning/:id', async (req, res) => {
   try {
     const downloader = new Downloader();
     const xmlid = req.params.id;
@@ -42,7 +42,7 @@ app.get("/warning/:id", async (req, res) => {
     const warningParser = new FloodWarningParser(warning);
     const text = await downloader.downloadText(xmlid);
 
-    res.send({ ...(await warningParser.getWarning()), text: text || "" });
+    res.send({ ...(await warningParser.getWarning()), text: text || '' });
   } catch (error) {
     console.log(error);
     res.send(ERRORMESSAGE);
